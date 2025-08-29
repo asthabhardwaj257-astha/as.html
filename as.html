@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vijayshri Attri — Metaacogz World</title>
+
+  <!-- Font Awesome for social icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent:#2d3e9a;
+      --accent-2:#f04b8a;
+      --muted:#666;
+      --bg:#f7f9fc;
+      --card:#ffffff;
+      --radius:12px;
+      --maxw:1150px;
+      --glass: rgba(255,255,255,0.8);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color:#222;
+      background: linear-gradient(180deg,#fbfdff 0%, #f0f6ff 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    a{color:inherit;text-decoration:none}
+    header{
+      position:sticky; top:0; z-index:95;
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
+      border-bottom: 1px solid rgba(20,30,60,0.04);
+    }
+    .container{
+      width:100%; max-width:var(--maxw); margin:0 auto; padding:0 18px;
+    }
+
+    /* Nav */
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:12px 0;}
+    .logo{
+      display:flex; align-items:center; gap:10px; font-weight:700; color:var(--accent);
+    }
+    .logo img{height:44px; width:44px; border-radius:8px; object-fit:cover;}
+    nav ul{display:flex; gap:18px; list-style:none; margin:0; padding:0; align-items:center;}
+    nav a{padding:8px 10px; color:#21314a; font-weight:600; font-size:15px;}
+    nav a:hover{color:var(--accent-2)}
+
+    /* Hero / Slider */
+    .hero{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:stretch;
+      padding-bottom:30px;
+    }
+    @media (max-width:980px){ .hero{grid-template-columns:1fr; padding-bottom:12px} nav ul{display:none} }
+    .hero-left{
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.6));
+      border-radius:var(--radius);
+      padding:30px;
+      box-shadow: 0 6px 20px rgba(30,40,80,0.06);
+      min-height:320px;
+      display:flex; flex-direction:column; justify-content:center;
+    }
+    .tagline{ color:var(--accent); font-weight:800; font-size:16px; letter-spacing:0.6px;}
+    .title{ font-size:28px; margin:12px 0; font-weight:800; color:#13203a;}
+    .desc{color:var(--muted); margin-bottom:16px; font-size:15px;}
+    .hero-ctas{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      border-radius:10px; padding:10px 14px; cursor:pointer; font-weight:700;
+      border:none; font-size:14px;
+    }
+    .btn-primary{ background:linear-gradient(90deg,var(--accent), #4b6fe3); color:white; box-shadow:0 8px 22px rgba(45,62,154,0.12) }
+    .btn-outline{ background:transparent; border:1px solid rgba(20,30,60,0.08); color:var(--accent) }
+
+    .highlights{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:16px;}
+    .hl-card{ background:var(--card); padding:12px; border-radius:10px; box-shadow: 0 6px 16px rgba(25,35,70,0.04); display:flex; align-items:center; gap:10px;}
+    .hl-card .num{font-weight:800; color:var(--accent-2); font-size:18px}
+    .hl-card p{margin:0; font-size:14px; color:var(--muted)}
+
+    /* Slider right */
+    .slider{
+      position:relative;
+      height:100%;
+      min-height:320px;
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow: 0 10px 30px rgba(16,28,70,0.08);
+    }
+    .slides{ width:300%; display:flex; transition:transform 0.7s cubic-bezier(.2,.8,.2,1); height:100%}
+    .slide{ flex:0 0 100%; position:relative; display:flex; align-items:center; justify-content:center; background:#0000}
+    .slide img{ width:100%; height:100%; object-fit:cover; display:block; filter: contrast(1.02) saturate(1.06) }
+    .slider-controls{ position:absolute; left:12px; right:12px; top:12px; display:flex; justify-content:space-between; pointer-events:none}
+    .slider-controls button{ pointer-events:auto; background:rgba(255,255,255,0.9); border-radius:10px; border:none; padding:8px 10px; box-shadow:0 6px 18px rgba(10,20,60,0.08); cursor:pointer}
+    .slider-dots{ position:absolute; bottom:12px; left:0; right:0; display:flex; justify-content:center; gap:8px; }
+    .dot{ width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.6); cursor:pointer; box-shadow:0 4px 10px rgba(10,20,60,0.06) }
+    .dot.active{ background:var(--accent-2); transform:scale(1.08) }
+
+    /* Main content sections */
+    section{ margin:28px 0; }
+    .card{ background:var(--card); border-radius:12px; padding:18px; box-shadow:0 10px 30px rgba(16,28,70,0.04)}
+    h2.section-title{ margin:0 0 12px 0; font-size:20px; color:var(--accent) }
+
+    /* About */
+    .about-grid{ display:grid; grid-template-columns:300px 1fr; gap:20px; align-items:start;}
+    @media (max-width:900px){ .about-grid{ grid-template-columns:1fr } }
+
+    .avatar{ width:100%; aspect-ratio:1/1; border-radius:10px; object-fit:cover; background:linear-gradient(90deg,#f3f6ff,#fff0f6); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--accent) }
+
+    /* Services tabs */
+    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+    .tab-btn{ padding:10px 12px; border-radius:10px; border:1px solid rgba(20,30,60,0.06); background:transparent; cursor:pointer; font-weight:700 }
+    .tab-btn.active{ background:linear-gradient(90deg,var(--accent),#4b6fe3); color:white; border:none }
+
+    .service-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px;}
+    @media (max-width:880px){ .service-grid{ grid-template-columns:1fr } }
+    .service-item{ padding:14px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfdff); box-shadow:0 6px 18px rgba(20,30,70,0.04) }
+    .service-item h4{ margin:0 0 8px 0; color:var(--accent) }
+
+    /* Ventures */
+    .ventures{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; align-items:stretch }
+    @media (max-width:900px){ .ventures{ grid-template-columns:1fr } }
+    .venture{ display:flex; gap:12px; align-items:flex-start; padding:12px; border-radius:10px; background:var(--card) }
+    .venture img{ width:72px; height:72px; object-fit:cover; border-radius:8px; }
+
+    /* Testimonials */
+    .testi-grid{ display:grid; gap:12px; grid-template-columns:repeat(3,1fr)}
+    @media (max-width:1000px){ .testi-grid{ grid-template-columns:1fr } }
+
+    /* Courses */
+    .courses-list{ display:grid; gap:8px }
+    .course{ display:flex; justify-content:space-between; padding:10px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfbff) }
+
+    /* Gallery */
+    .gallery{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px }
+    @media (max-width:1000px){ .gallery{ grid-template-columns:repeat(2,1fr) } }
+    .gallery img{ width:100%; height:140px; object-fit:cover; border-radius:8px }
+
+    /* Contact */
+    .contact-grid{ display:grid; grid-template-columns:1fr 380px; gap:16px }
+    @media (max-width:900px){ .contact-grid{ grid-template-columns:1fr } }
+    .contact-form input, .contact-form textarea{
+      width:100%; padding:10px; border-radius:8px; border:1px solid rgba(20,30,60,0.06); font-size:14px; margin-bottom:8px;
+    }
+    .social-row{ display:flex; gap:8px; align-items:center; margin-top:10px }
+    .social-row a{ display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; border-radius:10px; background:var(--card); box-shadow:0 6px 16px rgba(10,20,60,0.04); color:var(--accent) }
+
+    footer{ text-align:center; color:var(--muted); padding:22px 10px; margin-top:30px }
+    small{ font-size:13px }
+
+    /* utility */
+    .muted{ color:var(--muted) }
+    .lead{ font-size:15px; color:#25344f }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container nav-inner">
+      <div class="logo">
+        <!-- Replace src with your logo if available -->
+        <img src="https://via.placeholder.com/88x88.png?text=VA" alt="Vijayshri Attri logo">
+        <div>
+          <div style="font-size:15px">Vijayshri Attri</div>
+          <div style="font-size:12px;color:#7b8aa6">Entrepreneur • Mental Health • POSH & POCSO</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#ventures">My Ventures</a></li>
+          <li><a href="#initiatives">Initiatives</a></li>
+          <li><a href="#courses">Courses</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="home">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-left card">
+        <div class="tagline">Entrepreneur | POSH & POCSO Advisor | Mental Health Expert | L&D Specialist</div>
+        <div class="title">Hi — I'm Vijayshri. I empower minds, skills & careers.</div>
+        <div class="desc lead">I design transformation programs — from mental health & NLP workshops to POSH/POCSO awareness, corporate learning journeys and NGO outreach. I work with organizations, schools and individuals to create safer, resilient and high-performing communities.</div>
+
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#contact">Book a Consultation</a>
+          <a class="btn btn-outline" href="#services">View Services</a>
+          <a class="btn btn-outline" href="#courses">Upcoming Courses</a>
+        </div>
+
+        <div class="highlights">
+          <div class="hl-card"><div class="num">4+</div><p>Core Services</p></div>
+          <div class="hl-card"><div class="num">200+</div><p>Workshops & Sessions</p></div>
+          <div class="hl-card"><div class="num">50+</div><p>Corporate Clients</p></div>
+          <div class="hl-card"><div class="num">10k+</div><p>Community Outreach</p></div>
+        </div>
+      </div>
+
+      <div class="slider">
+        <div class="slider-controls">
+          <button id="prevBtn" aria-label="Previous"><i class="fa fa-chevron-left"></i></button>
+          <button id="nextBtn" aria-label="Next"><i class="fa fa-chevron-right"></i></button>
+        </div>
+
+        <div class="slides" id="slides">
+          <!-- Slide 1 - banner image provided from developer -->
+          <div class="slide">
+            <img src="/mnt/data/bannerimage.jpg" alt="Vijayshri banner">
+          </div>
+          <!-- Slide 2 -->
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1400&q=60" alt="workshop">
+          </div>
+          <!-- Slide 3 -->
+          <div class="slide">
+            <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1400&q=60" alt="awareness">
+          </div>
+        </div>
+
+        <div class="slider-dots" id="dots"></div>
+      </div>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="card">
+      <h2 class="section-title">About Me</h2>
+      <div class="about-grid">
+        <div>
+          <div class="avatar">
+            <!-- Replace with profile photo -->
+            <img src="https://via.placeholder.com/300.png?text=Vijayshri" alt="Vijayshri" style="width:100%;height:100%;border-radius:10px;object-fit:cover">
+          </div>
+        </div>
+        <div>
+          <p class="lead">I am an entrepreneur and practitioner working at the intersection of mental health, learning & development and safeguarding (POSH & POCSO). With years of hands-on experience delivering corporate wellbeing programs, school & community awareness drives, and leadership development workshops, my approach combines evidence-based psychology, advanced NLP techniques and practical policy interventions.</p>
+
+          <h3 style="margin-top:12px">Professional achievements & recognitions</h3>
+          <ul class="muted">
+            <li>Founder — Metaacogz World (Corporate training & L&D)</li>
+            <li>Founder — Alpha Minds (Personal development & NLP)</li>
+            <li>Founder — Vijayshri Educational & Social Welfare Trust</li>
+            <li>Founder — Aarambh: Ek Nayi Shuruwat (NGO)</li>
+            <li>Delivered 200+ workshops to corporates and educational institutions</li>
+          </ul>
+
+          <h3 style="margin-top:12px">Philosophy & Mission</h3>
+          <p class="muted">I believe in holistic development: equipping individuals and organizations with skills, psychological resilience and safe culture to thrive. My mission is to build accessible programs that create measurable impact in mental health awareness, workplace safety and learner empowerment.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="card">
+      <h2 class="section-title">Services</h2>
+      <div class="tabs" id="serviceTabs">
+        <button class="tab-btn active" data-tab="tab1">Mental Health & NLP Programs</button>
+        <button class="tab-btn" data-tab="tab2">POSH Awareness & External IC</button>
+        <button class="tab-btn" data-tab="tab3">POCSO Awareness Programs</button>
+        <button class="tab-btn" data-tab="tab4">Customized L&D</button>
+      </div>
+
+      <div id="tabContents">
+        <!-- Tab 1 -->
+        <div class="tab-content" id="tab1">
+          <div class="service-grid">
+            <div class="service-item">
+              <h4>Personal transformation workshops</h4>
+              <p class="muted">Interactive NLP-based sessions for personal growth, confidence building and goal setting.</p>
+            </div>
+            <div class="service-item">
+              <h4>Corporate wellness programs</h4>
+              <p class="muted">Mental health awareness, stress management, resilience training and manager coaching.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2 -->
+        <div class="tab-content" id="tab2" style="display:none">
+          <div class="service-grid">
+            <div class="service-item">
+              <h4>Internal Committee training</h4>
+              <p class="muted">Complete IC training for POSH compliance, reporting structures & case handling.</p>
+            </div>
+            <div class="service-item">
+              <h4>Policy review & audits</h4>
+              <p class="muted">Assess policies, update employee handbooks and recommend practical interventions.</p>
+            </div>
+            <div class="service-item">
+              <h4>External IC services</h4>
+              <p class="muted">Acting as an External IC member for independent investigations and advisory.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3 -->
+        <div class="tab-content" id="tab3" style="display:none">
+          <div class="service-grid">
+            <div class="service-item">
+              <h4>School/college awareness drives</h4>
+              <p class="muted">Age-appropriate awareness sessions on POCSO & child safety for students.</p>
+            </div>
+            <div class="service-item">
+              <h4>Training for teachers & parents</h4>
+              <p class="muted">Practical guidance to recognize signs, report and support children safely.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4 -->
+        <div class="tab-content" id="tab4" style="display:none">
+          <div class="service-grid">
+            <div class="service-item">
+              <h4>Leadership programs</h4>
+              <p class="muted">Tailored programs for new managers, emerging leaders and high potentials.</p>
+            </div>
+            <div class="service-item">
+              <h4>Communication & team-building</h4>
+              <p class="muted">Practicals for effective communication, collaboration and conflict resolution.</p>
+            </div>
+            <div class="service-item">
+              <h4>Employee engagement & skill-building</h4>
+              <p class="muted">Designing upskilling journeys aligned to organizational goals.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <a class="btn btn-primary" href="#contact">Request a Proposal</a>
+        <a class="btn btn-outline" href="#courses">Book a Workshop</a>
+      </div>
+    </section>
+
+    <!-- My Ventures -->
+    <section id="ventures" class="card">
+      <h2 class="section-title">My Ventures</h2>
+      <div class="ventures">
+        <div class="venture">
+          <img src="https://via.placeholder.com/96x96.png?text=MW" alt="Metaacogz World">
+          <div>
+            <strong>Metaacogz World</strong>
+            <div class="muted">Corporate training, POSH, L&D & Mental Health programs. <a href="#" style="color:var(--accent)">Know More</a></div>
+          </div>
+        </div>
+
+        <div class="venture">
+          <img src="https://via.placeholder.com/96x96.png?text=AM" alt="Alpha Minds">
+          <div>
+            <strong>Alpha Minds</strong>
+            <div class="muted">Personal development & advanced NLP programs. <a href="#" style="color:var(--accent)">Know More</a></div>
+          </div>
+        </div>
+
+        <div class="venture">
+          <img src="https://via.placeholder.com/96x96.png?text=Trust" alt="Trust">
+          <div>
+            <strong>Vijayshri Educational & Social Welfare Trust</strong>
+            <div class="muted">Social initiatives & educational support. <a href="#" style="color:var(--accent)">Know More</a></div>
+          </div>
+        </div>
+
+        <div class="venture">
+          <img src="https://via.placeholder.com/96x96.png?text=Aarambh" alt="Aarambh NGO">
+          <div>
+            <strong>Aarambh: Ek Nayi Shuruwat</strong>
+            <div class="muted">Awareness campaigns, youth engagement & social welfare. <a href="#" style="color:var(--accent)">Know More</a></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Initiatives & Impact -->
+    <section id="initiatives" class="card">
+      <h2 class="section-title">Initiatives & Impact</h2>
+      <p class="muted">Success stories, case studies and outreach work — community drives reaching schools, parents and youth. Below are a few highlights and testimonials.</p>
+
+      <div class="testi-grid" style="margin-top:12px">
+        <div class="card">
+          <strong>Corporate Wellness — ABC Ltd</strong>
+          <p class="muted">Delivered a 6-week resilience program; stress indices measured dropped by 28% and manager feedback improved significantly.</p>
+          <small class="muted">— HR Lead, ABC Ltd</small>
+        </div>
+
+        <div class="card">
+          <strong>School POCSO Drive — XYZ School</strong>
+          <p class="muted">Conducted age-appropriate awareness sessions for 1200 students with teacher training and parent workshops.</p>
+          <small class="muted">— Principal, XYZ School</small>
+        </div>
+
+        <div class="card">
+          <strong>Leadership Cohort — DEF Corp</strong>
+          <p class="muted">Customized leadership journey for 30 mid-level managers; post-program productivity and engagement scores improved.</p>
+          <small class="muted">— L&D Head, DEF Corp</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Courses -->
+    <section id="courses" class="card">
+      <h2 class="section-title">Courses & Upcoming Workshops</h2>
+      <p class="muted">Workshops, webinars and training sessions. Use registration links or book directly.</p>
+
+      <div class="courses-list" style="margin-top:12px">
+        <div class="course"><div><strong>Resilience & Mental Wellness — 2-day workshop</strong><div class="muted">Format: Online / In-person</div></div><div style="min-width:140px; text-align:right"><small class="muted">Date: 15 Sep 2025</small><br><a class="btn btn-primary" href="#contact">Register</a></div></div>
+
+        <div class="course"><div><strong>POSH IC Training — Half day</strong><div class="muted">Format: Corporate on-site</div></div><div style="min-width:140px; text-align:right"><small class="muted">On request</small><br><a class="btn btn-outline" href="#contact">Request</a></div></div>
+
+        <div class="course"><div><strong>POCSO Awareness for Schools — 1 hour</strong><div class="muted">Format: School assemblies & teacher workshops</div></div><div style="min-width:140px; text-align:right"><small class="muted">Dates: Monthly</small><br><a class="btn btn-primary" href="#contact">Book</a></div></div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="card">
+      <h2 class="section-title">Gallery</h2>
+      <div class="gallery" style="margin-top:12px">
+        <img src="https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&w=600&q=60" alt="">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=600&q=60" alt="">
+        <img src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=600&q=60" alt="">
+        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=600&q=60" alt="">
+      </div>
+      <p class="muted" style="margin-top:8px">Photos & videos of sessions, awareness campaigns and NGO Work. our session photos.</p>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="card">
+      <h2 class="section-title">Contact Me</h2>
+      <div class="contact-grid" style="margin-top:12px">
+        <div>
+          <form class="contact-form" onsubmit="handleContact(event)">
+            <input id="name" required placeholder="Your name" />
+            <input id="email" type="email" required placeholder="Email address" />
+            <input id="phone" placeholder="Phone (optional)" />
+            <textarea id="message" rows="5" required placeholder="Tell me about your requirement..."></textarea>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-primary" type="submit">Send Inquiry</button>
+              <a class="btn btn-outline" href="mailto:contact@example.com">Email Directly</a>
+            </div>
+          </form>
+
+          <div style="margin-top:12px">
+            <strong>Office</strong>
+            <div class="muted">Delhi, India</div>
+            <div style="margin-top:8px">Phone: <a href="tel:+911234567890">+91 12345 67890</a></div>
+            <div>Email: <a href="mailto:contact@example.com">contact@example.com</a></div>
+
+            <div class="social-row">
+              <a href="https://facebook.com" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+              <a href="https://linkedin.com" target="_blank" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="https://instagram.com" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card" style="height:100%; display:flex; flex-direction:column; justify-content:center; gap:8px;">
+            <h3 style="margin:0">Book a Consultation</h3>
+            <p class="muted">Choose a mode and time. For workshops and corporate proposals, mention group size and preferred dates.</p>
+            <a class="btn btn-primary" href="#contact">Request a Quote</a>
+            <div style="margin-top:10px; font-size:13px" class="muted">Or call directly to discuss scope and pricing.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <small>© <span id="year"></span> Vijayshri Attri — Metaacogz World. All rights reserved.</small>
+    </footer>
+
+  </main>
+
+  <script>
+    // Set footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Simple slider */
+    const slidesEl = document.getElementById('slides');
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const dotsContainer = document.getElementById('dots');
+    let current = 0;
+    let autoplay = true;
+    const n = slides.length;
+
+    function renderDots(){
+      dotsContainer.innerHTML = '';
+      for(let i=0;i<n;i++){
+        const d = document.createElement('div');
+        d.className = 'dot' + (i===current ? ' active':'');
+        d.dataset.index = i;
+        d.addEventListener('click', ()=>{ gotoSlide(i); autoplay=false; });
+        dotsContainer.appendChild(d);
+      }
+    }
+
+    function updateSlider(){
+      slidesEl.style.transform = `translateX(-${current*100}%)`;
+      Array.from(dotsContainer.children).forEach((dot, idx) => {
+        dot.classList.toggle('active', idx===current);
+      });
+    }
+
+    function gotoSlide(i){
+      current = (i + n) % n;
+      updateSlider();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', ()=>{ gotoSlide(current-1); autoplay=false; });
+    document.getElementById('nextBtn').addEventListener('click', ()=>{ gotoSlide(current+1); autoplay=false; });
+
+    renderDots();
+    updateSlider();
+
+    // Autoplay
+    setInterval(()=>{
+      if(autoplay){ gotoSlide(current+1) }
+    }, 4500);
+
+    /* Tabs for services */
+    document.querySelectorAll('.tab-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const id = btn.dataset.tab;
+        document.querySelectorAll('.tab-content').forEach(tc=>{
+          tc.style.display = (tc.id === id) ? 'block' : 'none';
+        });
+        window.location.hash = '#services';
+      });
+    });
+
+    /* Contact form - simple handler (demo) */
+    function handleContact(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      if(!name || !email || !message){
+        alert('Please fill name, email and message.');
+        return;
+      }
+
+      // For demo: open mailto with prefilled details (you can replace with AJAX call to backend)
+      const subject = encodeURIComponent('Workshop / Consultation request from ' + name);
+      const body = encodeURIComponent(
+        'Name: ' + name + '\\n' +
+        'Email: ' + email + '\\n' +
+        'Phone: ' + phone + '\\n\\n' +
+        'Message:\\n' + message
+      );
+      window.location.href = `mailto:contact@example.com?subject=${subject}&body=${body}`;
+    }
+
+    /* Smooth scroll for nav */
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        const target = document.querySelector(a.getAttribute('href'));
+        if(target){
+          e.preventDefault();
+          target.scrollIntoView({behavior:'smooth', block:'start'});
+        }
+      });
+    });
+  </script>
+</body>
+</html>
